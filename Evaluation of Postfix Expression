@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int calculate(char ch,int op1,int op2)
+{
+    switch(ch)
+    {
+        case '+':return op1+op2;
+        case '-':return op1-op2;
+        case '*':return op1*op2;
+        case '/':return op1/op2;
+    }
+}
+bool isoperand(char ch)
+{
+    if(ch=='+' || ch=='-' || ch=='*' || ch=='/')
+        return false;
+    return true;    
+}
+int main() {
+	//code
+	int test;
+	cin>>test;
+	while(test--)
+	{
+	    string expr;
+	    cin>>expr;
+	    
+	    stack<int>s;
+	    for(int i=0;i<expr.length();i++)
+	    {   
+	        if(isoperand(expr[i]))
+	        {
+	           int operand= expr[i]-'0';
+	            s.push(operand);
+	        }
+	            
+	        else
+	           {
+	               int op2=s.top();
+	               s.pop();
+	               int op1=s.top();
+	               s.pop();
+	               int result=calculate(expr[i],op1,op2);
+	               s.push(result);
+	           }
+	    }
+	    cout<<s.top()<<endl;
+	    
+	}
+	return 0;
+}
