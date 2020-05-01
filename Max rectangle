@@ -1,0 +1,75 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+
+int maxArea(int M[MAX][MAX], int n, int m);
+int main() {
+    int T;
+    cin >> T;
+
+    int M[MAX][MAX];
+
+    while (T--) {
+        int n, m;
+        cin >> n >> m;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> M[i][j];
+            }
+        }
+        cout << maxArea(M, n, m) << endl;
+    }
+}
+// } Driver Code Ends
+
+int MAH(int arr[],int size)
+{
+        vector<long long>ls(size);
+	    vector<long long>rs(size);
+	    stack<int>l,r;
+	    //finding nearest smallest to left
+	    for(int i=0;i<size;i++)
+	    {
+	        while(!l.empty() && arr[l.top()]>=arr[i])
+	            l.pop();
+	       ls[i]=l.empty()?-1:l.top();
+	       l.push(i);
+	    }
+	    //finding nearest smallest to right
+	    for(long long i=size-1;i>=0;i--)
+	    {
+	        while(!r.empty() && arr[r.top()]>=arr[i])
+	            r.pop();
+	       rs[i]=r.empty()?size:r.top();
+	       r.push(i);
+	    }
+	    vector<long long>area(size);
+	    long long max=LLONG_MIN;
+	    for(long long i=0;i<size;i++) 
+	       {
+	          
+	        area[i]=(rs[i]-ls[i]-1)*arr[i];
+	           if(max<area[i]) max=area[i];
+	       }
+	    return max;
+}
+/*You are required to complete this method*/
+int maxArea(int M[MAX][MAX], int n, int m) {
+    // Your code here
+    int arr[m];int mx;
+    for(int j=0;j<m;j++)    arr[j]=M[0][j];   
+    mx=MAH(arr,m);
+    for(int i=1;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(M[i][j]==0)  arr[j]=0;
+            else    arr[j]=arr[j]+M[i][j];
+        }
+        mx=max(mx,MAH(arr,m));
+    }
+    return mx;
+    
+}
