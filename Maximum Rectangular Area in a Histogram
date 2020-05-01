@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	//code
+	int  test;
+	cin>>test;
+	while(test--)
+	{
+	    long long size;
+	    cin>>size;
+	    long long arr[size];
+	    for(long long i=0;i<size;i++)
+	        cin>>arr[i];
+	    vector<long long>ls(size);
+	    vector<long long>rs(size);
+	    stack<int>l,r;
+	    //finding nearest smallest to left
+	    for(int i=0;i<size;i++)
+	    {
+	        while(!l.empty() && arr[l.top()]>=arr[i])
+	            l.pop();
+	       ls[i]=l.empty()?-1:l.top();
+	       l.push(i);
+	    }
+	    //finding nearest smallest to right
+	    for(long long i=size-1;i>=0;i--)
+	    {
+	        while(!r.empty() && arr[r.top()]>=arr[i])
+	            r.pop();
+	       rs[i]=r.empty()?size:r.top();
+	       r.push(i);
+	    }
+	    vector<long long>area(size);
+	    long long max=LLONG_MIN;
+	    for(long long i=0;i<size;i++) 
+	       {
+	          
+	     area[i]=(rs[i]-ls[i]-1)*arr[i];
+	           if(max<area[i]) max=area[i];
+	       }
+	   cout<<max<<endl;    
+	     
+	}
+	return 0;
+}
